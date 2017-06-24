@@ -12,9 +12,8 @@ class BoardModel extends PDO
     public function add($board)
     {
         try{
-            $hash = password_hash($board['pass'],PASSWORD_DEFAULT);
             $rs = $this->db->prepare("INSERT INTO board_tb(BOARD_NM,BOARD_YMD,BOARD_CONTENT,USER_NM,BOARD_PASS) VALUES (?,now(),?,?,?);");
-            $rs->execute(array($board['title'], $board['content'], $board['user'],$hash));
+            $rs->execute(array($board['title'], $board['content'], $board['user'],$board['pass']));
 
             $no = $this->db->lastInsertId();
             $rs = $this->db->prepare("update board_tb set PARENT_NO = ? where BOARD_NO = ?");
@@ -29,12 +28,12 @@ class BoardModel extends PDO
     public function addReply($board)
     {
         try {
-            $hash = password_hash($board['pass'],PASSWORD_DEFAULT);
             $rs = $this->db->prepare("update board_tb set INDEX_NO = INDEX_NO+1 where PARENT_NO = ? and INDEX_NO > ?");
             $rs->execute(array($board['parent'], $board['index']));
 
             $rs = $this->db->prepare("INSERT INTO board_tb(BOARD_NM,BOARD_YMD,BOARD_CONTENT,USER_NM,DEPTH_NO,INDEX_NO,PARENT_NO,BOARD_PASS) VALUES (?,now(),?,?,?,?,?,?);");
-            $rs->execute(array($board['title'], $board['content'], $board['user'], $board['depth'] + 1, $board['index'] + 1, $board['parent'],$hash));
+            $rs->execute(array($board['title'], $board['content'], $board['user'], $board['depth'] + 1, $board['index'] + 1, $board['parent'],$board['pass']));
+            return $this->db->lastInsertId();
         }catch(PDOException $e){
             print 'addReply no! '.$e->getMessage();
         }
@@ -59,7 +58,7 @@ class BoardModel extends PDO
     /* 게시글 내용 불러오기 */
     public function get($index)
     {
-        $rs = $this->db->prepare("select * from board_tb where BOARD_NO = ?");
+        $rs = $this->db->prepare("select *,bt.BOARD_NO as BOARD_NO from board_tb bt left outer join FILE_TB ft on bt.BOARD_NO = ft.BOARD_NO where bt.BOARD_NO = ?");
         $rs->execute(array($index));
         $data = $rs->fetch(PDO::FETCH_ASSOC);
         return $data;
@@ -89,13 +88,12 @@ class BoardModel extends PDO
     /* 게시글 업데이트 */
     public function update($board){
         try{
-            $hash = password_hash($board['pass'],PASSWORD_DEFAULT);
             $rs = $this->db->prepare("update board_tb set board_nm= :board_nm, board_content= :board_content, user_nm=:user_nm, board_ymd=now(), board_pass=:board_pass where BOARD_NO=:board_no");
             $rs->bindParam(':board_nm',$board['title']);
             $rs->bindParam(':board_content',$board['content']);
             $rs->bindParam(':user_nm',$board['user']);
             $rs->bindParam(':board_no',$board['no']);
-            $rs->bindParam(":board_pass",$hash);
+            $rs->bindParam(":board_pass",$board['pass']);
             $rs->execute();
         }catch(PDOException $e){
             print 'update no! = '.$e->getMessage();

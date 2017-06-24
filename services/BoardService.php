@@ -9,7 +9,10 @@
         /* 글 저장 로직 */
         function boardAddPost($data){
             if(isset($data['submit'])){
-                $data['no'] = $this->boardModel->add($_POST);
+                if ($data['pass']!='') {
+                    $data['pass'] = password_hash($data['pass'],PASSWORD_DEFAULT);
+                }
+                $data['no'] = $this->boardModel->add($data);
                 if ($_FILES['file']['error'] != 4) {
                     $ext = array_pop(explode(".", $_FILES['file']['name']));
                     $uploadFile = md5(date("YmdHis", time()) . basename($_FILES['file']['name']));
@@ -29,7 +32,7 @@
             }
         }
         function boardAddGet(){
-            $this->type = 'add';
+            $this->type = "add";
             require_once ('./views/add.php');
         }
 
@@ -42,13 +45,18 @@
                 $this->board['BOARD_CONTENT'] = '';
                 $this->board['USER_NM'] = '';
                 $this->type = 'reply';
+                $this->page = $data['page'];
                 require_once ('./views/add.php');
             }
         }
+
         function boardReplyPost($data){
             if(isset($data['submit'])){
-                $this->boardModel->addReply($_POST);
-                header('Location:'.ROOT_URL.'list');
+                if($data['pass']!=''){
+                    $data['pass'] = password_hash($data['pass'],PASSWORD_DEFAULT);
+                }
+                $no = $this->boardModel->addReply($data);
+                header('Location:'.ROOT_URL.'view?no='.$no.'&page='.$data['page']);
             }
         }
 
@@ -80,8 +88,7 @@
                 $this->board = $this->boardModel->get($no);
                 $this->commentList = $this->boardModel->getComment($no);
                 $this->file = $this->boardModel->getFile($no);
-                if (!is_null($this->board['BOARD_PASS'])) {
-                    $this->log->info("pass exist");
+                if (!is_null($this->board['BOARD_PASS']) && $this->board['BOARD_PASS'] != '') {
                     $this->no = $no;
                     require_once('./views/passCheck.php');
                     return;
@@ -97,13 +104,17 @@
                 $no = $data['no'];
                 $this->board = $this->boardModel->get($no);
                 $this->type = 'update';
+                $this->page = $data['page'];
                 require_once ('./views/add.php');
             }
         }
         function boardUpdatePost($data){
             if (isset($data['submit'])) {
-                $no = $this->boardModel->update($_POST);
-                header('Location:'.ROOT_URL.'view?no='.$data['no']);
+                if($data['pass']!=''){
+                    $data['pass'] = password_hash($data['pass'],PASSWORD_DEFAULT);
+                }
+                $this->boardModel->update($data);
+                header('Location:'.ROOT_URL.'view?no='.$data['no'].'&page='.$data['page']);
             }
         }
 

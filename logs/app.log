@@ -1,185 +1,88 @@
 info : start = 0
-info : pass exist
-info : no = 79 comment = d writer = d
+info : start = 0
 info : pass exist
 info : start = 0
 info : pass exist
-info : no = 79 comment = fefef writer = efeef
-info : 79  fefef  efeef
 info : pass exist
+info : start = 0
+info : pass exist
+info : start = 0
+info : pass not exist
+info : pass exist
+info : start = 0
+info : start = 0
+info : start = 0
+info : start = 0
+info : start = 0
+info : start = 0
+info : start = 0
+info : start = 0
+info : start = 0
+info : start = 0
+info : start = 0
+info : start = 0
+info : start = 0
+info : start = 0
+info : start = 0
+info : start = 50
+info : start = 90
+info : start = 100
+info : start = 100
+info : start = 100
+info : start = 100
+info : start = 0
+info : start = -10
 info : start = -10
 info : start = 0
-info : pass exist
 info : start = 0
-info : pass exist
 info : start = 0
-info : pass exist
-info : pass exist
-info : pass exist
-info : start = -10
-info : start = -10
 info : start = 0
-info : pass exist
-info : pass exist
-info : start = -10
-info : start = -10
 info : start = 0
-info : pass exist
-info : pass exist
-info : start = -10
-info : start = 0
-info : pass exist
-info : pass exist
-info : start = 0
-info : start = 10
 info : start = 20
-info : start = 0
-info : pass exist
-info : pass exist
-info : start = 0
-info : pass exist
-info : pass exist
-info : start = 0
-info : pass exist
-info : start = 0
-info : pass exist
-info : start = 0
-info : pass exist
-info : start = 0
-info : pass exist
-info : exist file
-info : start = 0
-info : exist file
-info : start = 0
-info : no exist file
-info : start = 0
-info : start = 0
-info : start = 0
-info : start = 0
-info : file = ./files/bcb41a2255043e5a9592fd81d38959d3
-info : file2 = ./files/bcb41a2255043e5a9592fd81d38959d3
-info : start = 0
-info : file = ../files/40414e8a174dba8fab4424c6ae3cd34f
-info : file2 = ../files/40414e8a174dba8fab4424c6ae3cd34f
-info : start = 0
-info : start = 0
-info : file = var/www/html/board/files/5859fddf307b3791e9de998bb8065f4f
-info : file2 = var/www/html/board/files/5859fddf307b3791e9de998bb8065f4f
-info : start = 0
-info : file = ./files/cb679eb9091b2bec125ae7b6f6eee7f5 type=text/plain
-info : file2 = ./files/cb679eb9091b2bec125ae7b6f6eee7f5
-info : start = 0
-info : file = ./files/9b5033dda30d0184a7e9ed50e9e3d103txt type=text/plain
-info : file2 = ./files/9b5033dda30d0184a7e9ed50e9e3d103txt
-info : start = 0
-info : file = ./files/abfaaaa1f241c889745197af273fd4e5.txt type=text/plain
-info : file2 = ./files/abfaaaa1f241c889745197af273fd4e5.txt
-info : start = 0
-info : start = 0
-info : file2 = ./files/69da6b61f290e9d848690ceffd7fdab1.txt
-info : start = 0
-info : pass exist
-info : nononono
-info : start = 0
-info : tetete
-info : file3 = ./files/ec4da3be287743b29057c3573d0d33c7.txt
-info : start = 0
-info : tetete
-info : file3 = ./files/3aa20a82ee98b9fb425df70ce2357cd7.txt
-info : start = 0
-info : tetete
-info : file3 = ./files/3e6663731c637c7f5522e497bccacc25.txt
-info : start = 0
-info : data = 96
-info : tetete
-info : file3 = ./files/3347fb5b9aab7156ce5384a28dc4189a.txt
-info : start = 0
-info : data = 97
-info : tetete
-info : file3 = ./files/f325c59f1f596acc7012dfba97ea6fc9.txt
-info : datadddd = 97
-info : start = 0
-info : data = 98
-info : tetete
-info : file3 = ./files/149e96717c89089f38a6cd67a2810245.txt
-info : datadddd = 98
-info : start = 0
-info : data = 99
-info : datadddd = 99
-info : start = 0
-info : start = 0
-info : datadddd = 100
-info : start = 0
-info : pass exist
-info : pass exist
-info : pass exist
-info : pass exist
-info : start = 0
-info : start = 0
-info : start = 0
-info : pass exist
-info : pass exist
-info : start = 10
+info : start = 40
+info : start = 40
+info : start = 40
+info : start = 30
+info : start = 30
 info : start = 30
 info : start = 20
-info : start = 0
 info : start = 10
-info : start = 20
-info : start = 30
 info : start = 0
 info : start = 0
-info : pass exist
-info : datadddd = 101
 info : start = 0
-info : pass exist
 info : start = 0
-info : pass exist
 info : start = 0
-info : datadddd = 102
 info : start = 0
-info : pass exist
 info : start = 0
-info : pass exist
+info : start = -10
 info : start = 0
-info : pass exist
 info : start = 0
-info : pass exist
-info : fileName= 50034896b2ec9031f6261482ce1fe601.txt
+info : start = -10
 info : start = 0
-info : datadddd = 103
 info : start = 0
-info : pass exist
-info : fileName= 633a714b699a950de7248a54fa0a17f2
+info : start = -10
 info : start = 0
-info : datadddd = 104
 info : start = 0
-info : pass exist
-info : fileName= 8555aa7be081c7945b96ad3fc2b46b85.txt
-info : pass exist
-info : fileName= 8555aa7be081c7945b96ad3fc2b46b85.txt
 info : start = 0
-info : pass exist
-info : fileName= 8555aa7be081c7945b96ad3fc2b46b85.txt
+info : start = -10
+info : start = 50
+info : start = 40
 info : start = 0
-info : pass exist
-info : fileName= 8555aa7be081c7945b96ad3fc2b46b85.txt
+info : start = -10
 info : start = 0
-info : pass exist
 info : start = 0
-info : pass exist
+info : start = -10
 info : start = 0
-info : pass exist
-info : pass exist
 info : start = 0
-info : pass exist
-info : pass exist
-info : pass exist
 info : start = 0
-info : pass exist
 info : start = 0
-info : pass exist
-info : pass exist
-info : pass exist
-info : pass exist
-info : pass exist
+info : start = 0
+info : start = 0
+info : start = 0
+info : start = 0
+info : start = 0
+info : start = 0
+info : start = 0
+info : start = 0
+info : start = 0
 info : start = 0
