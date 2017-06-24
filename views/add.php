@@ -23,9 +23,15 @@
                         <label>작성자</label>
                         <input type="text" name="user" value="<?=$this->board['USER_NM']?>"/>
                     </li>
+                    <?php if ($this->type == 'update'){ ?>
+                        <li>
+                            <label>첨부파일</label>
+                            <?= $this->board['FILE_ORG_NM']; ?>
+                        </li>
+                    <?}?>
                     <li>
                         <label>첨부파일</label>
-                        <input type="file" name="file" value="<?=$this->board['FILE_ORG_NM'];?>" />
+                        <input type="file" name="file" value="" />
                     </li>
                     <li>
                         <label>비밀번호</label>

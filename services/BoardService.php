@@ -13,21 +13,7 @@
                     $data['pass'] = password_hash($data['pass'],PASSWORD_DEFAULT);
                 }
                 $data['no'] = $this->boardModel->add($data);
-                if ($_FILES['file']['error'] != 4) {
-                    $ext = array_pop(explode(".", $_FILES['file']['name']));
-                    $uploadFile = md5(date("YmdHis", time()) . basename($_FILES['file']['name']));
-                    $uploadDir = FILE_PATH . $uploadFile . '.' . $ext;
-                    // http post로 업로드 된 파일인 지 체크
-                    if (is_uploaded_file($_FILES['file']['tmp_name'])) {
-                        if (move_uploaded_file($_FILES['file']['tmp_name'], $uploadDir)) {
-                            $data['file_org_name'] = $_FILES['file']['name'];
-                            $data['file_new_name'] = $uploadFile.'.'.$ext;
-                            $this->boardModel->addFile($data);
-                        }
-                    } else {
-                        return "<script>alert('post로 전송된 파일이 아닙니다.');</script>";
-                    }
-                }
+                self::fileUpload($data,'add');
                 header('Location:' . ROOT_URL . 'list');
             }
         }
@@ -88,6 +74,7 @@
                 $this->board = $this->boardModel->get($no);
                 $this->commentList = $this->boardModel->getComment($no);
                 $this->file = $this->boardModel->getFile($no);
+                $this->fileHref = 'fileDownload?fileName='.$this->file['FILE_NEW_NM'].'&orgFileName='.$this->file['FILE_ORG_NM'];
                 if (!is_null($this->board['BOARD_PASS']) && $this->board['BOARD_PASS'] != '') {
                     $this->no = $no;
                     require_once('./views/passCheck.php');
@@ -113,6 +100,7 @@
                 if($data['pass']!=''){
                     $data['pass'] = password_hash($data['pass'],PASSWORD_DEFAULT);
                 }
+                self::fileUpload($data,'update');
                 $this->boardModel->update($data);
                 header('Location:'.ROOT_URL.'view?no='.$data['no'].'&page='.$data['page']);
             }
@@ -239,6 +227,39 @@
                 $fp = fopen($file_dir,"rb");
                 fpassthru($fp);
                 fclose($fp);
+            }
+        }
+
+        /* 파일 업로드 */
+        private function fileUpload($data,$type){
+            if ($_FILES['file']['error'] != 4) {
+                $ext = array_pop(explode(".", $_FILES['file']['name']));
+                $uploadFile = md5(date("YmdHis", time()) . basename($_FILES['file']['name']));
+                $uploadDir = FILE_PATH . $uploadFile . '.' . $ext;
+                // http post로 업로드 된 파일인 지 체크
+                if (is_uploaded_file($_FILES['file']['tmp_name'])) {
+                    if (move_uploaded_file($_FILES['file']['tmp_name'], $uploadDir)) {
+                        $data['file_org_name'] = $_FILES['file']['name'];
+                        $data['file_new_name'] = $uploadFile . '.' . $ext;
+                        $this->log->info('file = '.$uploadDir);
+                        if($type=='update'){
+                            $this->boardModel->updateFile($data);
+                            $this->file = $this->boardModel->getFile($data['no']);
+                            self::fileDelete(FILE_PATH.$this->file['FILE_NEW_NM']);
+                        }else{
+                            $this->boardModel->addFile($data);
+                        }
+                    }
+                } else {
+                    return "<script>alert('post로 전송된 파일이 아닙니다.');</script>";
+                }
+            }
+        }
+
+        /* 파일 삭제 */
+        private function fileDelete($uploadDir){
+            if(is_file($uploadDir)==true){
+                unlink($uploadDir);
             }
         }
     }

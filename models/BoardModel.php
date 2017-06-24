@@ -163,6 +163,19 @@ class BoardModel extends PDO
             print 'getFile no! ='.$e->getMessage();
         }
     }
+
+    /* 파일 업데이트 */
+    function updateFile($data){
+        try{
+            $rs = $this->db->prepare('update FILE_TB set FILE_ORG_NM = :FILE_ORG_NM, FILE_NEW_NM = :FILE_NEW_NM, FILE_YMD = now() where BOARD_NO = :board_no');
+            $rs->bindValue(':FILE_ORG_NM',$data['file_org_name']);
+            $rs->bindValue(':FILE_NEW_NM',$data['file_new_name']);
+            $rs->bindValue(':board_no',$data['no']);
+            $rs->execute();
+        }catch(PDOException $e){
+            print 'updateFile no! = '.$e->getMessage();
+        }
+    }
 }
 
 ?>
