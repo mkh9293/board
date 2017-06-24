@@ -1,0 +1,61 @@
+function settingPrice(){
+        var serverPrice = {:$getProductInfo.sale_month_price};
+        var storagePrice = {:$getPackageInfo.package_month_price};
+        var networkPrice = {:$getNetworkInfo.package_month_price};
+        var osPrice = {:$getOsInfo.os_sales_month_price};
+        var totalPrice = serverPrice+storagePrice+networkPrice+osPrice;
+
+        $('.serverPrice').text(comma(serverPrice));
+        $('.storagePrice').text(comma(storagePrice));
+        $('.networkPrice').text(comma(networkPrice));
+        $('.osPrice').text(comma(osPrice));
+        $('.totalPaymentPrice').text(comma(totalPrice));
+
+        // 프로모션 할인 가격 추가해야함.
+    }
+
+    function settingText(){
+        var projectText = "{:$data.project_name}";
+        var serverText = "{:$getProductInfo.cpuCnt}vCore + {:$getProductInfo.memCnt}GB";
+        var networkText = "트래픽 {:$getNetworkInfo.traffic}TB + 공인IP {:$getNetworkInfo.ip}개";
+        var osText = "{:$getOsInfo.os_name}";
+        var keyText= "{:$data.keyPair}";
+
+        var storageText;
+        var storageValue = {:$getPackageInfo.val};
+        var storageEtc = {:$getPackageInfo.val_etc};
+        if (storageValue == "50") {
+            storageText = "ROOT " + storageValue + "G";
+        } else {
+            storageText = "ROOT " + storageEtc + "G" + " + DATA " + (storageValue - storageEtc) + "G";
+        }
+
+        $('.projectName').text(projectText);
+        $('.serverPresetTextRight').text(serverText);
+        $('.networkPresetTextRight').text(networkText);
+        $('.osText').text(osText);
+        $('.storagePresetTextRight').text(storageText);
+        $('.keyPairText').text(keyText);
+    }
+
+    function settingVal(){
+        $('input[name=serverVal]').val('{:Util_AesSecurityPHP::setAesEncrypt($getProductInfo.pro_sno)}');
+        $('input[name=storageVal').val('{:Util_AesSecurityPHP::setAesEncrypt($getPackageInfo.p_sno)}');
+        $('input[name=networkVal').val('{:Util_AesSecurityPHP::setAesEncrypt($getNetworkInfo.p_sno)}');
+        $('input[name=osVal').val('{:Util_AesSecurityPHP::setAesEncrypt($getOsInfo.os_sno)}');
+    }
+
+    function doneFrmSubmit(){
+        alert(1);
+        return false;
+    }
+
+    $(document).ready(function() {
+        //신청페이지2의 선택 값, 텍스트 초기화
+        settingPrice();
+        settingText();
+        settingVal();
+
+        $('#loading').hide();
+        $('.right_area').css('height', $('.left_area').css('height'));
+    });

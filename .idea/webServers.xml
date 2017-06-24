@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="19a8e6e4-9473-4119-a132-e02911293077" name="Board" url="http://52.198.196.126">
+        <fileTransfer host="52.198.196.126" port="22" privateKey="C:\Program Files\PuTTY\mkh9293.ppk" accessType="SFTP" keyPair="true">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" />
+          </advancedOptions>
+          <option name="port" value="22" />
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>
