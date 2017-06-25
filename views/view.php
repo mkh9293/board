@@ -1,6 +1,4 @@
-<html>
-    <body>
-        <div>
+ <div>
             <table>
                 <tr>
                     <th>No.</th>

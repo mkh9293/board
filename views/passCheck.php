@@ -1,5 +1,3 @@
-<html>
-<body>
 <form action="view" method="post">
     <input type="hidden" name="no" value="<?=$this->no?>"/>
     <input type="hidden" name="page" value="<?=$this->page?>"/>

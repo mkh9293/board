@@ -1,6 +1,5 @@
 <?php
-define('ROOT_URL','http://52.198.196.126/board/');
-define('BASE_CONT','./controllers/BoardController.php');
+define('ROOT_URL','http://52.198.196.126/project/');
 define('DB_VENDOR','mysql');
 define('DB_HOST','52.198.196.126');
 define('DB_NAME','board');

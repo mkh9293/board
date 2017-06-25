@@ -1,5 +1,3 @@
-<html>
-    <body>
         <div>
             <form action="<?= $this->type ?>" method="post" enctype="multipart/form-data">
                 <?php if (isset($this->type)) { ?>

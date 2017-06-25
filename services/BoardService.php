@@ -14,12 +14,12 @@
                 }
                 $data['no'] = $this->boardModel->add($data);
                 self::fileUpload($data,'add');
-                header('Location:' . ROOT_URL . 'list');
+                header('Location:' . ROOT_URL . 'board/list');
             }
         }
         function boardAddGet(){
             $this->type = "add";
-            require_once ('./views/add.php');
+            self::requiresFile($this->type);
         }
 
         /* 답글 작성 */
@@ -32,7 +32,7 @@
                 $this->board['USER_NM'] = '';
                 $this->type = 'reply';
                 $this->page = $data['page'];
-                require_once ('./views/add.php');
+                self::requiresFile('add');
             }
         }
 
@@ -42,7 +42,7 @@
                     $data['pass'] = password_hash($data['pass'],PASSWORD_DEFAULT);
                 }
                 $no = $this->boardModel->addReply($data);
-                header('Location:'.ROOT_URL.'view?no='.$no.'&page='.$data['page']);
+                header('Location:'.ROOT_URL.'board/view?no='.$no.'&page='.$data['page']);
             }
         }
 
@@ -59,7 +59,7 @@
                     $this->fileHref = 'fileDownload?fileName='.$this->file['FILE_NEW_NM'].'&orgFileName='.$this->file['FILE_ORG_NM'];
                     $this->boardModel->upHit($no);
                     $this->page = $data['page'];
-                    require_once ('./views/view.php');
+                    self::requiresFile('view');
                 }else{
                     echo "<script>history.back(); alert('error');</script>";
                 }
@@ -77,11 +77,11 @@
                 $this->fileHref = 'fileDownload?fileName='.$this->file['FILE_NEW_NM'].'&orgFileName='.$this->file['FILE_ORG_NM'];
                 if (!is_null($this->board['BOARD_PASS']) && $this->board['BOARD_PASS'] != '') {
                     $this->no = $no;
-                    require_once('./views/passCheck.php');
+                    self::requiresFile('passCheck');
                     return;
                 }
                 $this->boardModel->upHit($no);
-                require_once ('./views/view.php');
+                self::requiresFile('view');
             }
         }
 
@@ -92,7 +92,7 @@
                 $this->board = $this->boardModel->get($no);
                 $this->type = 'update';
                 $this->page = $data['page'];
-                require_once ('./views/add.php');
+                self::requiresFile('add');
             }
         }
         function boardUpdatePost($data){
@@ -102,7 +102,7 @@
                 }
                 self::fileUpload($data,'update');
                 $this->boardModel->update($data);
-                header('Location:'.ROOT_URL.'view?no='.$data['no'].'&page='.$data['page']);
+                header('Location:'.ROOT_URL.'board/view?no='.$data['no'].'&page='.$data['page']);
             }
         }
 
@@ -111,7 +111,7 @@
             if (isset($data['no'])) {
                 $no = $data['no'];
                 $no = $this->boardModel->delete($no);
-                header('Location:'.ROOT_URL.'list?no='.$no);
+                header('Location:'.ROOT_URL.'board/list?no='.$no);
             }
         }
 
@@ -119,6 +119,7 @@
         function boardList($list){
             $j = 0;
             $this->boardList = $list[0];
+            $this->pages = $list[1];
             foreach($this->boardList as $board){
                 $this->boardList[$j]['step'] = "";
                 $this->boardList[$j]['space'] = "";
@@ -136,12 +137,11 @@
                     $this->boardList[$j]['BOARD_NM'] = '삭제된 게시글 입니다';
                     $this->boardList[$j]['href'] = "location.href='#'";
                 }else{
-                    $this->boardList[$j]['href'] = "location.href='view?no=".$board['BOARD_NO']."&page=".$list[2]."'";
+                    $this->boardList[$j]['href'] = "location.href='".ROOT_URL."board/view?no=".$board['BOARD_NO']."&page=".$list[2]."'";
                 }
                 $this->boardList[$j++]['space'] = $blank;
             }
-
-            require_once ('./views/list.php');
+            self::requiresFile('list');
         }
 
         /* 페이징 */
@@ -211,7 +211,7 @@
         function boardCommentPost($data){
             if (isset($data['submit'])) {
                 $this->boardModel->addComment($data);
-                header('Location:'.ROOT_URL.'view?no='.$data['no'].'&page='.$data['page']);
+                header('Location:'.ROOT_URL.'board/view?no='.$data['no'].'&page='.$data['page']);
             }
         }
 
@@ -261,6 +261,12 @@
             if(is_file($uploadDir)==true){
                 unlink($uploadDir);
             }
+        }
+
+        /* 뷰 파일 호출 */
+        private function requiresFile($type){
+            require_once ('./views/common/header.php');
+            require_once ('./views/'.$type.'.php');
         }
     }
 ?>

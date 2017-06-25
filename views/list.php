@@ -1,6 +1,4 @@
-<html>
-    <body>
-        <table>
+ <table>
             <tr>
                 <td>No.</td>
                 <td>Title.</td>
@@ -28,7 +26,7 @@
                 </form>
             </div>
         <div>
-            <?php foreach($list[1] as $value){ ?>
+            <?php foreach($this->pages as $value){ ?>
                 <?= $value; ?>
             <?php } ?>
         </div>
