@@ -5,7 +5,6 @@
             spl_autoload_register('Root::class_autoLoader');
             require_once ('config.php');
             require_once ('Log.php');
-            $this->error = new ErrorController();
 
             $action = $_GET['url'];
             $url = explode("/",$action);
@@ -19,7 +18,7 @@
             $class = ucFirst($url[0]).'Controller';
             $fileCheck = './controllers/'.$class.'.php';
             if(!file_exists($fileCheck)){
-                $this->error->getError();
+                require_once ('./views/common/notFound.php');
                 return false;
             }
 
@@ -28,11 +27,11 @@
             $this->method .= ucfirst($url[1]);
 
             if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-//                $this->class->{'post' . $this->method}();
-                self::callMethod($url[1],'post');
+                $this->class->{'post' . $this->method}();
+//                self::callMethod($url[1],'post');
             } else {
-//                $this->class->{'get' . $this->method}();
-                self::callMethod($url[1],'get');
+                $this->class->{'get' . $this->method}();
+//                self::callMethod($url[1],'get');
             }
 
         }

@@ -1,0 +1,122 @@
+#1.
+-----------------
+회원이 cloud테이블에 없는 경우
+
+1.cloud 테이블에 가입 이력이 없을 경우에 member api로부터 사용자 정보를 불러와서 cloud 테이블에 등록한다.
+
+2. 등록 성공 시 프로젝트 정보를 totalMap에 할당하고 프로모션 유저인지 정보를 가져온다.
+
+3. 프로모션 테이블에 없는 유저인 경우 기본적인 정보들을 프로모션 테이블에 등록한다.
+
+4. 총 신청정보가 담긴 totalMap의 정보를 cloud 신청서 테이블에 등록한다 (cloudRegistProjectOrder)
+-------------
+회원이 cloud테이블에 있는 경우
+
+1. cloud 회원테이블에서 user_grade 데이터를 불러와 회원의 등급 정보를 가져온다(godo_chost_grade)
+
+2. 불러온 정보를 gradeInfoMap에 저장한다. 해당 유저의 프로젝트 제한 갯수를 가져온다.
+
+3. 사용자가 신청한 프로젝트 갯수를 불러와서 프로젝트 제한 개수와 비교한다.
+
+4. 프로젝트 제한 개수보다 프로젝트 생성한 개수가 작을 때 프로젝트에 대한 정보들을 totalMap에 저장한다.
+
+5. 해당 유저의 프로모션 정보를 불러와 totalMap에 할인율, 이벤트 종료일에 대한 정보를 저장한다.
+
+6. 등록된 프로모션이 없을 경우 새로 등록해준다.
+
+7. totalMap에 저장시킨 데이터들을 project_order 테이블에 저장한다.
+
+8. 마지막 op_sno 값을 xssMap에 저장시킨다.
+
+9. 만약 프로젝트 개수가 제한 개수보다 많을 경우에는 fowordingMap에 "LIMIT", grade_name (유저 등급)을 리턴시킨다.
+
+--------------------------
+#2.
+
+1. op_sno를 totalMap에 저장.
+
+2. date_info 테이블에서 이벤트에 대한 정보를 불러온다.
+
+3. 난수를 생성하여 apiOrderNo 변수에 할당시킨다.
+
+3-1. 현재 날짜와 시간과 100부터 999까지의 숫자 중 하나를 골라서 합친 값을 리턴시킨다.
+3-2. 리턴 된 값으로 orderhistory테이블에서 데이터를 조회한다.
+3-3. 조회된 값이 난수 값과 같으면 해당 값(ordno 값)을 리턴한다.
+3-4. 난수로 발생시킨 값이 orderhistory에 존재하는지 체크하여 존재하면 apiOrderNo로 리턴시킴.
+
+4. 회원에 대한 데이터와 이벤트에 대한 정보를 totalMap에 할당한다.
+
+-------------------------------
+#3.
+
+1. post로 넘어온 serverSno로 product_info 테이블의 데이터를 조회한다.
+
+2. 조회하여 가져온 데이터들 중 일부를 totalMap에 저장한다 (sale,cancel price)
+
+3. 난수를 생성하여 totalMap의 basic_ordno에 저장한다.
+
+4. 현재까지 저장한 totalMap데이터를 basic 테이블에 저장시킨다.
+
+-----------------------------------
+godo_chost_Object_vmlist        insert
+godo_chost_order_project_detail insert
+
+5. 성공적으로 basic 테이블에 저장되었으면 vm, os 등 차례대로 신청서를 작성한다.
+
+6. package_detail테이블에서 trafficValue 값을 불러온다.
+
+7. totalMap에 데이터들을 할당하고 Object_vmlist 테이블에 저장한다.
+
+8. vm_sno를 받아서 webVmSno에 저장하고 type,object_sno,package_sno,basic_sno를 totalMap에 저장하고
+   order_project_detail 테이블에 저장한다.
+
+----------------------------------------
+godo_chost_Object_spla          insert
+godo_chost_order_project_detail insert 
+
+9. 초기화 되어 있는 os_sno를 가지고와서 godo_chost_os_items 테이블에 데이터를 조회한다. (os 상세정보)
+
+10. 그 데이터를 resultMap에 저장하고, resultMap에서 os의 월가격 정보만 totalMap에 저장하고 나머지 정보는 난수     생성하여 basic_ordno에 sale_time_price, cancel등은 하드코딩을 한 후에 godo_chost_basic 테이블에 저장한다.
+
+11. 성공적으로 basic 테이블에 저장되었으면 godo_chost_Object_spla 테이블에 데이터를 저장한다.
+
+12. 저장 후에 godo_chost_order_project_detail 테이블에도 type과 object_sno basic_sno 등을 지정 후 데이터를 저       장한다.
+
+----------------------------------
+godo_chost_autobuild            insert
+godo_chost_order_project_detail insert  
+
+13. 자동 설치가 y인 경우에 apm, os, mount 에 관련된 데이터를 godo_chost_autobuild 테이블에 저장시켜야 한다.
+
+14. 위 테이블에 apm, os, mount 데이터를 저장한 후에 godo_chost_order_project_detail 테이블에 또 해당 데이터들을     등록시킨다. 
+-------------------------------------
+godo_chost_security_group insert
+godo_chost_security_item  insert
+
+15. totalMap에 group_name, comment, id를 저장시킨다. 데이터는 webServerNm인데 이 데이터는 serverName이다.
+
+16. 데이터 저장 후 마지막 insert id 값을 받아 xssMap에 저장.
+
+17. group 테이블에 저장된 후에는 item 테이블에 저장해야한다.
+
+18. TCP, SSH, ICMP 데이터를 godo_chost_security_item 테이블에 저장시킨다.
+
+-----------------------------------------
+#4. 스토리지 패키지 관련
+
+19. 스토리지 sno와 "storage" pd_kind에 해당하는 데이터를 package_detail 테이블에서 조회한다.
+
+20. val 값이 50 보다 클 때 로직
+20-1. godo_chost_package 테이블에서 p_sno로 데이터를 조회한다.
+20-2. 패키지 시간당 가격, 중도해지가,  패키지 가격을 totalmap에 저장한다. (그외 diskval, 난수생성한 basic_ordno) 데이터도 저장
+
+20-3. 해당 데이터들을 godo_chost_basic 테이블에 저장시킨다.
+20-4. basic 테이블에 성공적으로 저장되었으면 Object_storage 테이블에도 값을 저장한다.(_root)
+20-4-1. Object_storage 테이블에 데이터를 저장할 때 트리거 2개가 걸려있음(update, insert log)
+
+20-5. 성공적으로 저장 후 order_project_detail 테이블에 storage 관련 데이터를 저장한다.
+20-6. 저장 후 _add로 또 한 번 데이터를 Object_storage 테이블에 저장한다.
+20-7. 저장 후 detail 테이블에 한번 더 데이터를 저장한다.
+
+21. val값이 50보다 크지 않을 때 로직
+21-1. 위와 로직은 똑같은 것 같은데, 다른 점은 _root에 대한 데이터만 저장하고 있음.

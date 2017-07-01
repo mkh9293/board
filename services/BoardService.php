@@ -219,6 +219,7 @@
         function fileDownloadGet($data){
             if(isset($data['fileName'])){
                 $file_dir = FILE_PATH . $data['fileName'] ;
+
                 header('Content-Type: application/x-octetstream');
                 header('Content-Length:'.filesize($file_dir));
                 header('Content-Disposition: attachment; filename='.$data['orgFileName']);
@@ -266,7 +267,7 @@
         /* 뷰 파일 호출 */
         private function requiresFile($type){
             require_once ('./views/common/header.php');
-            require_once ('./views/'.$type.'.php');
+            require_once ('./views/board/'.$type.'.php');
         }
     }
 ?>

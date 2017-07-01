@@ -55,12 +55,12 @@
         }
 
         /* 댓글 작성 */
-        function postCommentAdd(){
+        function postBoardAddComment(){
             $this->boardService->boardCommentPost($_POST);
         }
 
         /* 파일 다운로드 */
-        function getDownloadFile(){
+        function getBoardFileDownload(){
             $this->boardService->fileDownloadGet($_GET);
         }
     }
