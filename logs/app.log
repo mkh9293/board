@@ -20,10 +20,17 @@ info : start = 0
 info : start = 0
 info : start = 0
 info : start = 0
+<<<<<<< HEAD
 info : start = 0
 info : start = 0
+=======
+info : start = -10
+info : start = -10
 info : start = 0
+info : 
 info : start = 0
+info : 
+>>>>>>> 0ec4aa9a9ebb810e7a56d13c02938b0a51dcd335
 info : start = 0
 info : start = 0
 info : start = 0
@@ -32,6 +39,20 @@ info : start = 0
 info : start = 0
 info : start = 0
 info : start = 0
+<<<<<<< HEAD
+=======
+info : 1
+info : 1
+info : 1
+info : 
+info : 1
+info : 1
+info : 1
+info : 1
+info : 
+info : 
+info : 
+>>>>>>> 0ec4aa9a9ebb810e7a56d13c02938b0a51dcd335
 info : start = 0
 info : start = 0
 info : start = 0
@@ -125,3 +146,115 @@ info : start = 0
 info : start = 0
 info : start = 0
 info : start = 0
+info : start = 0
+info : start = 0
+<<<<<<< HEAD
+=======
+info : start = 0
+info : start = 0
+info : start = 0
+info : start = 0
+info : start = 0
+info : start = 0
+info : start = 0
+info : start = 0
+info : start = 0
+info : start = 0
+info : start = 0
+info : start = 0
+info : start = 0
+info : start = 0
+info : start = 0
+info : start = 0
+info : start = 0
+info : start = 0
+info : start = 0
+info : start = 0
+info : start = 0
+info : start = 0
+info : start = 0
+info : start = 0
+info : start = 0
+info : start = 0
+info : start = 0
+info : start = 0
+info : start = 0
+info : start = 0
+info : start = 0
+info : start = 0
+info : start = 0
+info : start = 0
+info : start = 0
+info : start = 0
+info : start = 0
+info : start = 0
+info : start = 0
+info : start = 0
+info : start = 0
+info : start = 0
+info : start = 0
+info : start = 0
+info : start = 0
+info : start = 0
+info : start = 0
+info : start = 0
+info : start = 0
+info : start = 0
+info : start = 0
+info : start = 0
+info : start = 0
+info : start = 0
+info : start = 0
+info : start = 0
+info : start = 0
+info : start = 0
+info : start = 0
+info : start = 0
+info : start = 0
+info : start = 0
+info : start = 0
+info : start = 0
+info : start = 0
+info : start = 0
+info : start = 0
+info : start = 0
+info : start = 0
+info : start = 0
+info : start = 0
+info : start = 0
+info : start = 0
+info : start = 0
+info : start = 0
+info : start = 0
+info : start = 0
+info : start = 0
+info : start = 0
+info : start = 0
+info : start = 0
+info : start = 0
+info : start = 0
+info : start = 0
+info : start = 0
+info : start = 0
+info : start = 0
+info : start = 0
+info : start = 0
+info : start = 0
+info : start = 10
+info : start = 0
+info : start = 10
+info : start = 20
+info : start = 30
+info : start = 50
+info : start = 0
+info : start = 0
+info : start = 0
+info : start = 0
+info : start = 0
+info : start = 0
+info : start = 0
+info : start = 0
+info : start = 0
+info : start = 0
+info : start = 0
+>>>>>>> 0ec4aa9a9ebb810e7a56d13c02938b0a51dcd335

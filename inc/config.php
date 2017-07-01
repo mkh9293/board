@@ -1,5 +1,5 @@
 <?php
-define('ROOT_URL','http://52.198.196.126/project/');
+define('ROOT_URL','http://localhost/project/');
 define('ROOT_DOC','project');
 define('DB_VENDOR','mysql');
 define('DB_HOST','52.198.196.126');
