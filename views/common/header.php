@@ -1,6 +1,7 @@
 <html>
     <body>
-        <?php if($_SESSION['logined']){?>
+        <?php if(isset($_SESSION['logined'])){ ?>
+            <?= $_SESSION['userId'] ?>
             <div>
                 <span><a href="/<?=ROOT_DOC?>/user/logout">로그아웃</a></span>
                 <span><a href="/<?=ROOT_DOC?>/user/mypage">설정</a></span>

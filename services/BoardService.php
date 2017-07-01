@@ -147,7 +147,7 @@
         /* 페이징 */
         function getPaging($data){
             $searchText = '';
-            if (isset($data['search'])) {
+            if (isset($data['search']) && !is_null($data['search'])) {
                 $searchText = $data['search'];
             }
 
@@ -155,7 +155,7 @@
             $page_num = 10;
             $block_num = 5;
             $page = 1;
-            if(!is_null($data['page'])){
+            if(isset($data['page']) && !is_null($data['page'])){
                 $page = $data['page'];
             }
 

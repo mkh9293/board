@@ -44,5 +44,14 @@
                 }
             }
         }
+
+        function getUserLogout(){
+            if (isset($_GET)) {
+                session_start();
+                session_unset();
+                session_destroy();
+                header('Location:' . ROOT_URL . 'board/list');
+            }
+        }
     }
 ?>
