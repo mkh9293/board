@@ -145,13 +145,22 @@
         }
 
         /* 페이징 */
-        function getPaging($data){
+        function getPaging($data,$type = null){
             $searchText = '';
             if (isset($data['search']) && !is_null($data['search'])) {
                 $searchText = $data['search'];
             }
 
-            $total = $this->boardModel->getBoardSize($searchText)->rows;
+            // 기본 게시판의 글만 가지고 올 때와 추가된 게시판의 글을 가져올 때를 구분
+            $where = '';
+            if (isset($type)) {
+                $where .= 'AND BOARD_TYPE_NO = ?';
+                $data = array('%'.$searchText.'%', $type);
+            }else{
+                $data = array('%'.$searchText.'%');
+            }
+
+            $total = $this->boardModel->getBoardSize($data,$where)->rows;
             $page_num = 10;
             $block_num = 5;
             $page = 1;
@@ -261,6 +270,18 @@
         private function fileDelete($uploadDir){
             if(is_file($uploadDir)==true){
                 unlink($uploadDir);
+            }
+        }
+
+        /* 게시판  추가 */
+        function addBoard($data){
+            if (isset($data['submit'])) {
+                $result = $this->boardModel->addBoard($data);
+                if($result > 0){
+                    header('Location:'.ROOT_URL.'board/list');
+                }else{
+                    return "<script>alert('게시판을 추가하는데 실패하였습니다.'); history.back();</script>";
+                }
             }
         }
 

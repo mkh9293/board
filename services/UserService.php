@@ -45,6 +45,7 @@
             }
         }
 
+        /* 로그아웃 */
         function getUserLogout(){
             if (isset($_GET)) {
                 session_start();
@@ -52,6 +53,10 @@
                 session_destroy();
                 header('Location:' . ROOT_URL . 'board/list');
             }
+        }
+
+        function getUserMypage(){
+            require_once ('./views/user/mypage.php');
         }
     }
 ?>

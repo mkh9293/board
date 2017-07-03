@@ -63,5 +63,11 @@
         function getBoardFileDownload(){
             $this->boardService->fileDownloadGet($_GET);
         }
+
+        /* 게시판 추가 */
+        function postBoardAddBoard(){
+            print_r($_POST);
+            $this->boardService->addBoard($_POST);
+        }
     }
 ?>

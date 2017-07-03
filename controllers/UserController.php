@@ -26,8 +26,15 @@
             $this->userService->postUserLogin();
         }
 
+        /**
+         * 로그아웃
+         */
         function getUserLogout(){
             $this->userService->getUserLogout();
+        }
+
+        function getUserMypage(){
+            $this->userService->getUserMypage();
         }
     }
 ?>

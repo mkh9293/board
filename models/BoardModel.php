@@ -72,10 +72,10 @@ class BoardModel extends PDO
     }
 
     /* 게시글 리스트 사이즈 불러오기 */
-    public function getBoardSize($text)
+    public function getBoardSize($data,$where)
     {
-        $rs = $this->db->prepare('select count(*) as rows from board_tb where BOARD_NM like ?');
-        $rs->execute(array('%'.$text.'%'));
+        $rs = $this->db->prepare('select count(*) as rows from board_tb where BOARD_NM like ? '.$where);
+        $rs->execute($data);
         return $data = $rs->fetch(PDO::FETCH_OBJ);
     }
 
@@ -174,6 +174,19 @@ class BoardModel extends PDO
             $rs->execute();
         }catch(PDOException $e){
             print 'updateFile no! = '.$e->getMessage();
+        }
+    }
+
+    /* 게시판 추가 */
+    function addBoard($data){
+        try{
+            $rs = $this->db->prepare('INSERT INTO BOARD_TYPE_TB(BOARD_SUBJECT, BOARD_TYPE) VALUES(:board_subject, :board_type)');
+            $rs->bindValue(':board_subject', $data['subject']);
+            $rs->bindValue(':board_type', $data['type']);
+            $rs->execute();
+            return $this->db->lastInsertId();
+        }catch(PDOException $e){
+            print 'addBoard no! ='.$e->getMessage();
         }
     }
 }
