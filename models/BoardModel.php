@@ -40,14 +40,13 @@ class BoardModel extends PDO
     }
 
     /* 게시글 리스트 불러오기 */
-    public function getList($text,$start,$end)
+    public function getList($param)
     {
         try{
-            $rs = $this->db->prepare("select * from board_tb where BOARD_NM like :text order by PARENT_NO desc, INDEX_NO asc limit :start, :end ");
-            $this->log->info("start = " . $start);
-            $rs->bindValue(":text","%".$text."%",PDO::PARAM_STR);
-            $rs->bindValue(":start",intval(trim($start)),PDO::PARAM_INT);
-            $rs->bindValue(":end",intval(trim($end)),PDO::PARAM_INT);
+            $rs = $this->db->prepare("select * from board_tb where BOARD_NM like :text " . $param['where'] . " order by PARENT_NO desc, INDEX_NO asc limit :start, :end");
+            foreach($param as $key => $value){
+                $rs->bindValue($key,$value,PDO::PARAM_INT);
+            }
             $rs->execute();
             return $rs->fetchAll(PDO::FETCH_ASSOC);
         }catch(PDOException $e){
@@ -72,10 +71,10 @@ class BoardModel extends PDO
     }
 
     /* 게시글 리스트 사이즈 불러오기 */
-    public function getBoardSize($data,$where)
+    public function getBoardSize($param)
     {
-        $rs = $this->db->prepare('select count(*) as rows from board_tb where BOARD_NM like ? '.$where);
-        $rs->execute($data);
+        $rs = $this->db->prepare('select count(*) as rows from board_tb where BOARD_NM like ? '.$param['where']);
+        $rs->execute($param['data']);
         return $data = $rs->fetch(PDO::FETCH_OBJ);
     }
 

@@ -152,15 +152,15 @@
             }
 
             // 기본 게시판의 글만 가지고 올 때와 추가된 게시판의 글을 가져올 때를 구분
-            $where = '';
+            $param['where'] = '';
             if (isset($type)) {
-                $where .= 'AND BOARD_TYPE_NO = ?';
-                $data = array('%'.$searchText.'%', $type);
+                $param['where'] = 'AND BOARD_TYPE_NO = ?';
+                $param['data'] = array('%'.$searchText.'%', $type);
             }else{
-                $data = array('%'.$searchText.'%');
+                $param['data'] = array('%'.$searchText.'%');
             }
 
-            $total = $this->boardModel->getBoardSize($data,$where)->rows;
+            $total = $this->boardModel->getBoardSize($param)->rows;
             $page_num = 10;
             $block_num = 5;
             $page = 1;
@@ -206,7 +206,18 @@
                 $pages[] = "<a href=?page=$next_page> [다음] </a>";
             }
 
-            $this->boardList = $this->boardModel->getList($searchText,$limit_start,$page_num);
+
+            unset($param);
+            $param[':text'] = "%".$searchText."%";
+            $param[':start'] = $limit_start;
+            $param[':end'] = $page_num;
+
+            if (isset($type)) {
+                $param['where'] = 'AND BOARD_TYPE_NO = :board_type_no';
+                $param[':board_type_no'] = $type;
+            }
+
+            $this->boardList = $this->boardModel->getList($param);
 
             $this->List = array();
             array_push($this->List, $this->boardList);
