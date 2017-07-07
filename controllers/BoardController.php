@@ -18,7 +18,20 @@
         function getBoardList(){
             try{
                 $list = $this->boardService->getPaging($_GET);
-                $this->boardService->boardList($list);
+                $list = $this->boardService->boardList($list);
+
+                $boardTypeList = $this->boardService->getBoardTypeInfo();
+
+
+
+                $i = 0;
+                foreach($boardTypeList as $key=>$value){
+                    $typeList = $this->boardService->getPaging('',$value['BOARD_TYPE_NO']);
+                    $typeList = $this->boardService->boardList($typeList);
+                }
+
+                print_r($typeList);
+                require_once ('./views/board/list.php');
             }catch (Exception $e){
                 $e ->getMessage();
             }

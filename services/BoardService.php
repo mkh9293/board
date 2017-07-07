@@ -141,7 +141,10 @@
                 }
                 $this->boardList[$j++]['space'] = $blank;
             }
-            self::requiresFile('list');
+            $list[0] = $this->boardList;
+            $list[1] = $this->pages;
+            return $list;
+//            self::requiresFile('list');
         }
 
         /* 페이징 */
@@ -294,6 +297,11 @@
                     return "<script>alert('게시판을 추가하는데 실패하였습니다.'); history.back();</script>";
                 }
             }
+        }
+
+        /** 게시판 종류 불러오기 **/
+        function getBoardTypeInfo(){
+            return $this->boardModel->getBoardTypeInfo();
         }
 
         /* 뷰 파일 호출 */

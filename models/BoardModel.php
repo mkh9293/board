@@ -44,7 +44,9 @@ class BoardModel extends PDO
     {
         try{
             $rs = $this->db->prepare("select * from board_tb where BOARD_NM like :text " . $param['where'] . " order by PARENT_NO desc, INDEX_NO asc limit :start, :end");
+//            print_r($param);
             foreach($param as $key => $value){
+                echo $value;
                 $rs->bindValue($key,$value,PDO::PARAM_INT);
             }
             $rs->execute();
@@ -186,6 +188,17 @@ class BoardModel extends PDO
             return $this->db->lastInsertId();
         }catch(PDOException $e){
             print 'addBoard no! ='.$e->getMessage();
+        }
+    }
+
+    /** 게시판 종류 불러오기 **/
+    function getBoardTypeInfo(){
+        try{
+            $rs = $this->db->query('SELECT * FROM BOARD_TYPE_TB');
+            $rs->execute();
+            return $rs->fetchAll(PDO::FETCH_ASSOC);
+        }catch(PDOException $e){
+            print 'getBoardTypeInfo no! ='.$e->getMessage();
         }
     }
 }
