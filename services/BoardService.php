@@ -19,6 +19,7 @@
         }
         function boardAddGet(){
             $this->type = "add";
+//            require_once ('./views/board/add.php');
             self::requiresFile($this->type);
         }
 
@@ -42,6 +43,9 @@
                     $data['pass'] = password_hash($data['pass'],PASSWORD_DEFAULT);
                 }
                 $no = $this->boardModel->addReply($data);
+                $data['no'] = $no;
+                self::fileUpload($data,'reply');
+
                 header('Location:'.ROOT_URL.'board/view?no='.$no.'&page='.$data['page']);
             }
         }
@@ -116,35 +120,36 @@
         }
 
         /* 글 리스트 출력 */
-        function boardList($list){
+        function boardList($list)
+        {
             $j = 0;
-            $this->boardList = $list[0];
-            $this->pages = $list[1];
-            foreach($this->boardList as $board){
-                $this->boardList[$j]['step'] = "";
-                $this->boardList[$j]['space'] = "";
+            if (!empty($this->boardList)) {
+                $this->boardList = $list[0];
+                foreach ($this->boardList as $board) {
+                    $this->boardList[$j]['step'] = "";
+                    $this->boardList[$j]['space'] = "";
 
-                if ($board['DEPTH_NO']>0) {
-                    $this->boardList[$j]['step'] = "ㄴ";
-                }
+                    if ($board['DEPTH_NO'] > 0) {
+                        $this->boardList[$j]['step'] = "ㄴ";
+                    }
 
-                $blank = "";
-                for($i=0;$i<$board['DEPTH_NO'];++$i){
-                    $blank .= "&nbsp;&nbsp";
-                }
+                    $blank = "";
+                    for ($i = 0; $i < $board['DEPTH_NO']; ++$i) {
+                        $blank .= "&nbsp;&nbsp";
+                    }
 
-                if($board['del']==1){
-                    $this->boardList[$j]['BOARD_NM'] = '삭제된 게시글 입니다';
-                    $this->boardList[$j]['href'] = "location.href='#'";
-                }else{
-                    $this->boardList[$j]['href'] = "location.href='".ROOT_URL."board/view?no=".$board['BOARD_NO']."&page=".$list[2]."'";
+                    if ($board['del'] == 1) {
+                        $this->boardList[$j]['BOARD_NM'] = '삭제된 게시글 입니다';
+                        $this->boardList[$j]['href'] = "location.href='#'";
+                    } else {
+                        $this->boardList[$j]['href'] = "location.href='" . ROOT_URL . "board/view?no=" . $board['BOARD_NO'] . "&page=" . $list[2] . "'";
+                    }
+                    $this->boardList[$j++]['space'] = $blank;
                 }
-                $this->boardList[$j++]['space'] = $blank;
-            }
-            $list[0] = $this->boardList;
-            $list[1] = $this->pages;
-            return $list;
+                $list[0] = $this->boardList;
+                return $list;
 //            self::requiresFile('list');
+            }
         }
 
         /* 페이징 */
@@ -214,13 +219,13 @@
             $param[':text'] = "%".$searchText."%";
             $param[':start'] = $limit_start;
             $param[':end'] = $page_num;
-
+            $where = '';
             if (isset($type)) {
-                $param['where'] = 'AND BOARD_TYPE_NO = :board_type_no';
+                $where = 'AND BOARD_TYPE_NO = :board_type_no';
                 $param[':board_type_no'] = $type;
             }
 
-            $this->boardList = $this->boardModel->getList($param);
+            $this->boardList = $this->boardModel->getList($param,$where);
 
             $this->List = array();
             array_push($this->List, $this->boardList);
@@ -267,9 +272,13 @@
                         $data['file_new_name'] = $uploadFile . '.' . $ext;
                         $this->log->info('file = '.$uploadDir);
                         if($type=='update'){
-                            $this->boardModel->updateFile($data);
                             $this->file = $this->boardModel->getFile($data['no']);
-                            self::fileDelete(FILE_PATH.$this->file['FILE_NEW_NM']);
+                            $result = self::fileDelete(FILE_PATH.$this->file['FILE_NEW_NM']);
+                            if($result){
+                                $this->boardModel->updateFile($data);
+                            }else{
+                                $this->boardModel->addFile($data);
+                            }
                         }else{
                             $this->boardModel->addFile($data);
                         }
@@ -284,7 +293,9 @@
         private function fileDelete($uploadDir){
             if(is_file($uploadDir)==true){
                 unlink($uploadDir);
+                return true;
             }
+            return false;
         }
 
         /* 게시판  추가 */

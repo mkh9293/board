@@ -40,14 +40,12 @@ class BoardModel extends PDO
     }
 
     /* 게시글 리스트 불러오기 */
-    public function getList($param)
+    public function getList($param,$where)
     {
         try{
-            $rs = $this->db->prepare("select * from board_tb where BOARD_NM like :text " . $param['where'] . " order by PARENT_NO desc, INDEX_NO asc limit :start, :end");
-//            print_r($param);
+            $rs = $this->db->prepare("select * from board_tb where BOARD_NM like :text ".$where." order by PARENT_NO desc, INDEX_NO asc limit :start, :end");
             foreach($param as $key => $value){
-                echo $value;
-                $rs->bindValue($key,$value,PDO::PARAM_INT);
+                $rs->bindValue($key,$value,PDO::PARAM_STR|PDO::PARAM_INT);
             }
             $rs->execute();
             return $rs->fetchAll(PDO::FETCH_ASSOC);

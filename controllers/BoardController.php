@@ -19,18 +19,29 @@
             try{
                 $list = $this->boardService->getPaging($_GET);
                 $list = $this->boardService->boardList($list);
-
                 $boardTypeList = $this->boardService->getBoardTypeInfo();
+                $boardList = array();
+                $list[3] = "";
+                $list[4] = "";
+                array_push($boardList,$list);
+                if(!empty($boardTypeList)) {
 
-
-
-                $i = 0;
-                foreach($boardTypeList as $key=>$value){
-                    $typeList = $this->boardService->getPaging('',$value['BOARD_TYPE_NO']);
-                    $typeList = $this->boardService->boardList($typeList);
+                    $i = count($list);
+//                    foreach ($boardTypeList as $key => $value) {
+//                        $list[$i] = $this->boardService->getPaging('', $value['BOARD_TYPE_NO']);
+//                        $list[++$i] = "";
+//                        $list[$i] = $this->boardService->boardList($list[$i]);
+//                        print_r($list);
+//                        array_push($boardList,$list);
+//                    }
+                    foreach ($boardTypeList as $key => $value) {
+                        $list = $this->boardService->getPaging('', $value['BOARD_TYPE_NO']);
+                        $list = $this->boardService->boardList($list);
+                        $list[3] = $value['BOARD_TYPE_NO'];
+                        $list[4] = $value['BOARD_SUBJECT'];
+                        array_push($boardList,$list);
+                    }
                 }
-
-                print_r($typeList);
                 require_once ('./views/board/list.php');
             }catch (Exception $e){
                 $e ->getMessage();

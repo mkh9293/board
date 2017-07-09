@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataSource name="board@52.198.196.126">
+  <database-model serializer="dbm" rdbms="MYSQL" format-version="4.2">
+    <root id="1"/>
+    <schema id="2" parent="1" name="board">
+      <Current>1</Current>
+      <Visible>1</Visible>
+    </schema>
+    <schema id="3" parent="1" name="greenstore"/>
+    <schema id="4" parent="1" name="information_schema"/>
+    <schema id="5" parent="1" name="innodb_redo_log"/>
+    <schema id="6" parent="1" name="mysql"/>
+    <schema id="7" parent="1" name="performance_schema"/>
+    <schema id="8" parent="1" name="phpmyadmin"/>
+    <schema id="9" parent="1" name="puppyCare"/>
+    <schema id="10" parent="1" name="Rank"/>
+    <schema id="11" parent="1" name="timeTable"/>
+    <table id="12" parent="2" name="BOARD_TYPE_TB"/>
+    <table id="13" parent="2" name="COMMENT_TB"/>
+    <table id="14" parent="2" name="FILE_TB"/>
+    <table id="15" parent="2" name="USER_TB"/>
+    <table id="16" parent="2" name="board_tb"/>
+    <column id="17" parent="12" name="BOARD_TYPE_NO">
+      <Position>1</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+    </column>
+    <column id="18" parent="12" name="BOARD_SUBJECT">
+      <Position>2</Position>
+      <DataType>varchar(100)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="19" parent="12" name="BOARD_TYPE">
+      <Position>3</Position>
+      <DataType>enum(&apos;free&apos;, &apos;notice&apos;)|0</DataType>
+      <DefaultExpression>&apos;free&apos;</DefaultExpression>
+    </column>
+    <key id="20" parent="12" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>BOARD_TYPE_NO</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="21" parent="13" name="COMMENT_NO">
+      <Position>1</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+    </column>
+    <column id="22" parent="13" name="BOARD_NO">
+      <Position>2</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="23" parent="13" name="COMMENT_CONTENT">
+      <Position>3</Position>
+      <DataType>text|0</DataType>
+    </column>
+    <column id="24" parent="13" name="COMMENT_YMD">
+      <Position>4</Position>
+      <DataType>datetime|0</DataType>
+    </column>
+    <column id="25" parent="13" name="USER_NM">
+      <Position>5</Position>
+      <DataType>varchar(45)|0</DataType>
+    </column>
+    <index id="26" parent="13" name="BOARD_NO">
+      <ColNames>BOARD_NO</ColNames>
+    </index>
+    <key id="27" parent="13" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>COMMENT_NO</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="28" parent="13" name="COMMENT_TB_ibfk_1">
+      <ColNames>BOARD_NO</ColNames>
+      <RefSchemaName>board</RefSchemaName>
+      <RefTableName>board_tb</RefTableName>
+      <RefColNames>BOARD_NO</RefColNames>
+    </foreign-key>
+    <column id="29" parent="14" name="FILE_NO">
+      <Position>1</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+    </column>
+    <column id="30" parent="14" name="BOARD_NO">
+      <Position>2</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="31" parent="14" name="FILE_ORG_NM">
+      <Position>3</Position>
+      <DataType>varchar(100)|0</DataType>
+    </column>
+    <column id="32" parent="14" name="FILE_NEW_NM">
+      <Position>4</Position>
+      <DataType>varchar(150)|0</DataType>
+    </column>
+    <column id="33" parent="14" name="FILE_YMD">
+      <Position>5</Position>
+      <DataType>datetime|0</DataType>
+    </column>
+    <index id="34" parent="14" name="BOARD_NO">
+      <ColNames>BOARD_NO</ColNames>
+    </index>
+    <key id="35" parent="14" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>FILE_NO</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="36" parent="14" name="FILE_TB_ibfk_1">
+      <ColNames>BOARD_NO</ColNames>
+      <RefSchemaName>board</RefSchemaName>
+      <RefTableName>board_tb</RefTableName>
+      <RefColNames>BOARD_NO</RefColNames>
+    </foreign-key>
+    <column id="37" parent="15" name="USER_NO">
+      <Position>1</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+    </column>
+    <column id="38" parent="15" name="USER_ID">
+      <Position>2</Position>
+      <DataType>varchar(25)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="39" parent="15" name="USER_NM">
+      <Position>3</Position>
+      <DataType>varchar(50)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="40" parent="15" name="USER_PASS">
+      <Position>4</Position>
+      <DataType>varchar(255)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <key id="41" parent="15" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>USER_NO</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="42" parent="16" name="BOARD_NO">
+      <Position>1</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+    </column>
+    <column id="43" parent="16" name="BOARD_NM">
+      <Position>2</Position>
+      <DataType>varchar(45)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="44" parent="16" name="BOARD_YMD">
+      <Position>3</Position>
+      <DataType>datetime|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="45" parent="16" name="BOARD_CONTENT">
+      <Position>4</Position>
+      <DataType>text|0</DataType>
+    </column>
+    <column id="46" parent="16" name="USER_NM">
+      <Position>5</Position>
+      <DataType>varchar(45)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="47" parent="16" name="HIT">
+      <Position>6</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+      <DefaultExpression>&apos;0&apos;</DefaultExpression>
+    </column>
+    <column id="48" parent="16" name="DEPTH_NO">
+      <Position>7</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+      <DefaultExpression>&apos;0&apos;</DefaultExpression>
+    </column>
+    <column id="49" parent="16" name="INDEX_NO">
+      <Position>8</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+      <DefaultExpression>&apos;0&apos;</DefaultExpression>
+    </column>
+    <column id="50" parent="16" name="PARENT_NO">
+      <Position>9</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+      <DefaultExpression>&apos;0&apos;</DefaultExpression>
+    </column>
+    <column id="51" parent="16" name="del">
+      <Position>10</Position>
+      <DataType>int(11)|0</DataType>
+      <DefaultExpression>&apos;0&apos;</DefaultExpression>
+    </column>
+    <column id="52" parent="16" name="BOARD_PASS">
+      <Position>11</Position>
+      <DataType>varchar(255)|0</DataType>
+    </column>
+    <column id="53" parent="16" name="BOARD_TYPE_NO">
+      <Position>12</Position>
+      <DataType>int(11)|0</DataType>
+    </column>
+    <index id="54" parent="16" name="BOARD_TYPE_NO">
+      <ColNames>BOARD_TYPE_NO</ColNames>
+    </index>
+    <key id="55" parent="16" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>BOARD_NO</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="56" parent="16" name="board_tb_ibfk_1">
+      <ColNames>BOARD_TYPE_NO</ColNames>
+      <RefSchemaName>board</RefSchemaName>
+      <RefTableName>BOARD_TYPE_TB</RefTableName>
+      <RefColNames>BOARD_TYPE_NO</RefColNames>
+    </foreign-key>
+  </database-model>
+</dataSource>
