@@ -12,8 +12,8 @@ class BoardModel extends PDO
     public function add($board)
     {
         try{
-            $rs = $this->db->prepare("INSERT INTO board_tb(BOARD_NM,BOARD_YMD,BOARD_CONTENT,USER_NM,BOARD_PASS) VALUES (?,now(),?,?,?);");
-            $rs->execute(array($board['title'], $board['content'], $board['user'],$board['pass']));
+            $rs = $this->db->prepare("INSERT INTO board_tb(BOARD_NM,BOARD_YMD,BOARD_CONTENT,USER_NM,BOARD_PASS,BOARD_TYPE_NO) VALUES (?,now(),?,?,?,?);");
+            $rs->execute(array($board['title'], $board['content'], $board['user'],$board['pass'],$board['type_no']));
 
             $no = $this->db->lastInsertId();
             $rs = $this->db->prepare("update board_tb set PARENT_NO = ? where BOARD_NO = ?");
@@ -31,8 +31,8 @@ class BoardModel extends PDO
             $rs = $this->db->prepare("update board_tb set INDEX_NO = INDEX_NO+1 where PARENT_NO = ? and INDEX_NO > ?");
             $rs->execute(array($board['parent'], $board['index']));
 
-            $rs = $this->db->prepare("INSERT INTO board_tb(BOARD_NM,BOARD_YMD,BOARD_CONTENT,USER_NM,DEPTH_NO,INDEX_NO,PARENT_NO,BOARD_PASS) VALUES (?,now(),?,?,?,?,?,?);");
-            $rs->execute(array($board['title'], $board['content'], $board['user'], $board['depth'] + 1, $board['index'] + 1, $board['parent'],$board['pass']));
+            $rs = $this->db->prepare("INSERT INTO board_tb(BOARD_NM,BOARD_YMD,BOARD_CONTENT,USER_NM,DEPTH_NO,INDEX_NO,PARENT_NO,BOARD_PASS,BOARD_TYPE_NO) VALUES (?,now(),?,?,?,?,?,?,?);");
+            $rs->execute(array($board['title'], $board['content'], $board['user'], $board['depth'] + 1, $board['index'] + 1, $board['parent'],$board['pass'],$board['type_no']));
             return $this->db->lastInsertId();
         }catch(PDOException $e){
             print 'addReply no! '.$e->getMessage();
@@ -43,7 +43,7 @@ class BoardModel extends PDO
     public function getList($param,$where)
     {
         try{
-            $rs = $this->db->prepare("select * from board_tb where BOARD_NM like :text ".$where." order by PARENT_NO desc, INDEX_NO asc limit :start, :end");
+            $rs = $this->db->prepare("select * from board_tb bt LEFT OUTER JOIN BOARD_TYPE_TB btt ON bt.BOARD_TYPE_NO = btt.BOARD_TYPE_NO where BOARD_NM like :text ".$where." order by PARENT_NO desc, INDEX_NO asc limit :start, :end");
             foreach($param as $key => $value){
                 $rs->bindValue($key,$value,PDO::PARAM_STR|PDO::PARAM_INT);
             }

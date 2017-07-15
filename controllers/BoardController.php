@@ -6,6 +6,22 @@
             $this->boardService = new BoardService();
         }
 
+        /* 글 메인 */
+        function getBoardMain(){
+            $type = 'main';
+            $list = $this->boardService->boardList($type,null);
+            $boardList = array();
+            array_push($boardList,$list);
+
+            $boardTypeList = $this->boardService->getBoardTypeInfo();
+            foreach ($boardTypeList as $key => $value) {
+                $list = $this->boardService->boardList($type,$value);
+                array_push($boardList,$list);
+            }
+            require_once ('./views/common/header.php');
+            require_once ('./views/main.php');
+        }
+
         /* 글 저장 */
         function getBoardAdd(){
             $this->boardService->boardAddGet();
@@ -17,31 +33,10 @@
         /* 글 리스트 */
         function getBoardList(){
             try{
-                $list = $this->boardService->getPaging($_GET);
-                $list = $this->boardService->boardList($list);
-                $boardTypeList = $this->boardService->getBoardTypeInfo();
-                $boardList = array();
-                $list[3] = "";
-                $list[4] = "";
-                array_push($boardList,$list);
-                if(!empty($boardTypeList)) {
+                $data = $this->boardService->getPaging($_GET);
+                $list = $this->boardService->boardList('',$data);
 
-                    $i = count($list);
-//                    foreach ($boardTypeList as $key => $value) {
-//                        $list[$i] = $this->boardService->getPaging('', $value['BOARD_TYPE_NO']);
-//                        $list[++$i] = "";
-//                        $list[$i] = $this->boardService->boardList($list[$i]);
-//                        print_r($list);
-//                        array_push($boardList,$list);
-//                    }
-                    foreach ($boardTypeList as $key => $value) {
-                        $list = $this->boardService->getPaging('', $value['BOARD_TYPE_NO']);
-                        $list = $this->boardService->boardList($list);
-                        $list[3] = $value['BOARD_TYPE_NO'];
-                        $list[4] = $value['BOARD_SUBJECT'];
-                        array_push($boardList,$list);
-                    }
-                }
+                require_once ('./views/common/header.php');
                 require_once ('./views/board/list.php');
             }catch (Exception $e){
                 $e ->getMessage();
@@ -90,7 +85,6 @@
 
         /* 게시판 추가 */
         function postBoardAddBoard(){
-            print_r($_POST);
             $this->boardService->addBoard($_POST);
         }
     }

@@ -6,6 +6,21 @@
             $this->log = new Log();
         }
 
+        /* 글 메인 */
+        function boardMain($type = null){
+            $param[':text'] = "%%";
+            $param[':start'] = 0;
+            $param[':end'] = 5;
+            if (isset($type)) {
+                $where = 'AND BOARD_TYPE_NO = :board_type_no';
+                $param[':board_type_no'] = $type;
+            }else{
+                $where = 'AND BOARD_TYPE_NO is null';
+            }
+
+            return $this->boardModel->getList($param,$where);
+        }
+
         /* 글 저장 로직 */
         function boardAddPost($data){
             if(isset($data['submit'])){
@@ -19,6 +34,7 @@
         }
         function boardAddGet(){
             $this->type = "add";
+            $this->typeNo = $_GET['type_no'];
 //            require_once ('./views/board/add.php');
             self::requiresFile($this->type);
         }
@@ -32,6 +48,7 @@
                 $this->board['BOARD_CONTENT'] = '';
                 $this->board['USER_NM'] = '';
                 $this->type = 'reply';
+                $this->typeNo = $_GET['type_no'];
                 $this->page = $data['page'];
                 self::requiresFile('add');
             }
@@ -119,12 +136,31 @@
             }
         }
 
-        /* 글 리스트 출력 */
-        function boardList($list)
+        /* 글 리스트 세팅 */
+        function boardList($type,$data)
         {
+            if(!empty($type)){
+                $param[':text'] = '%%';
+                $param[':start'] = 0;
+                $param[':end'] = 5;
+            }else{
+                $param[':text'] = $data[':text'];
+                $param[':start'] = $data[':start'];
+                $param[':end'] = $data[':end'];
+            }
+
+            if (!empty($data['BOARD_TYPE_NO'])) {
+                $where = 'AND bt.BOARD_TYPE_NO = :board_type_no';
+                $param[':board_type_no'] = $data['BOARD_TYPE_NO'];
+            }else{
+                $where = 'AND bt.BOARD_TYPE_NO is null';
+            }
+
+            $this->boardList = $this->boardModel->getList($param,$where);
+
             $j = 0;
+//            $this->boardList = $list[0];
             if (!empty($this->boardList)) {
-                $this->boardList = $list[0];
                 foreach ($this->boardList as $board) {
                     $this->boardList[$j]['step'] = "";
                     $this->boardList[$j]['space'] = "";
@@ -142,18 +178,23 @@
                         $this->boardList[$j]['BOARD_NM'] = '삭제된 게시글 입니다';
                         $this->boardList[$j]['href'] = "location.href='#'";
                     } else {
-                        $this->boardList[$j]['href'] = "location.href='" . ROOT_URL . "board/view?no=" . $board['BOARD_NO'] . "&page=" . $list[2] . "'";
+                        $this->boardList[$j]['href'] = "location.href='" . ROOT_URL . "board/view?no=" . $board['BOARD_NO'];/* . "&page=" . $list[2] . "'";*/
                     }
                     $this->boardList[$j++]['space'] = $blank;
                 }
-                $list[0] = $this->boardList;
-                return $list;
 //            self::requiresFile('list');
+//                $list[0] = $this->boardList;
+//                return $list;
+                return $this->boardList;
             }
         }
 
         /* 페이징 */
-        function getPaging($data,$type = null){
+        function getPaging($data){
+            $type = '';
+            if (!empty($data['BOARD_TYPE_NO'])) {
+                $type = $data['BOARD_TYPE_NO'];
+            }
             $searchText = '';
             if (isset($data['search']) && !is_null($data['search'])) {
                 $searchText = $data['search'];
@@ -161,10 +202,11 @@
 
             // 기본 게시판의 글만 가지고 올 때와 추가된 게시판의 글을 가져올 때를 구분
             $param['where'] = '';
-            if (isset($type)) {
+            if ($type != '') {
                 $param['where'] = 'AND BOARD_TYPE_NO = ?';
                 $param['data'] = array('%'.$searchText.'%', $type);
             }else{
+                $param['where'] = 'AND BOARD_TYPE_NO is null';
                 $param['data'] = array('%'.$searchText.'%');
             }
 
@@ -190,7 +232,7 @@
             $pages = array();
             // 이전 페이지
             if($now_block > 1){
-                $pages[] = "<a href=?page=$prev_page> [이전] </a>";
+                $pages[] = "<a href=?page=$prev_page&BOARD_TYPE_NO=$type> [이전] </a>";
             }
 
             // 페이지 리스트
@@ -205,35 +247,42 @@
                 if($i==$page){
                     $pages[] = "<b>$i</b>";
                 }else{
-                    $pages[] = "<a href=?page=$i&search=$searchText> $i </a>";
+                    $pages[] = "<a href=?page=$i&search=$searchText&BOARD_TYPE_NO=$type> $i </a>";
                 }
             }
 
             // 다음 페이지
             if($now_block < $total_block){
-                $pages[] = "<a href=?page=$next_page> [다음] </a>";
+                $pages[] = "<a href=?page=$next_page&BOARD_TYPE_NO=$type> [다음] </a>";
             }
 
 
-            unset($param);
-            $param[':text'] = "%".$searchText."%";
-            $param[':start'] = $limit_start;
-            $param[':end'] = $page_num;
-            $where = '';
-            if (isset($type)) {
-                $where = 'AND BOARD_TYPE_NO = :board_type_no';
-                $param[':board_type_no'] = $type;
-            }
+//            unset($param);
+//            $param[':text'] = "%".$searchText."%";
+//            $param[':start'] = $limit_start;
+//            $param[':end'] = $page_num;
+//            if (isset($type)) {
+//                $where = 'AND BOARD_TYPE_NO = :board_type_no';
+//                $param[':board_type_no'] = $type;
+//            }else{
+//                $where= 'AND BOARD_TYPE_NO is null';
+//            }
+//
+//            $this->boardList = $this->boardModel->getList($param,$where);
 
-            $this->boardList = $this->boardModel->getList($param,$where);
-
-            $this->List = array();
-            array_push($this->List, $this->boardList);
-            array_push($this->List, $pages);
-            array_push($this->List, $page);
-
-            return $this->List;
-        }
+//            $this->List = array();
+//            array_push($this->List, $this->boardList);
+//            array_push($this->List, $pages);
+//            array_push($this->List, $page);
+//
+//            return $this->List;
+            $data[':text'] = "%".$searchText."%";
+            $data[':start'] = $limit_start;
+            $data[':end'] = $page_num;
+            $data['page'] = $page;
+            $data['pages'] = $pages;
+            return $data;
+         }
 
         /* 댓글 작성 */
         function boardCommentPost($data){

@@ -1,5 +1,8 @@
-        <div><?= $this->type ?><?=$this->board['BOARD_NO'];?>
+        <div>
             <form action="<?= $this->type ?>" method="post" enctype="multipart/form-data">
+                <?php if($this->type == 'add' || $this->type == 'reply'){?>
+                <input type="hidden" name="type_no" value="<?=$this->typeNo;?>"/>
+                <?php }?>
                 <?php if (isset($this->type) && ($this->type=='update' || isset($this->board['BOARD_NO']))) { ?>
                     <input type="hidden" name="no" value="<?=$this->board['BOARD_NO'];?>"/>
                     <input type="hidden" name="parent" value="<?=$this->board['PARENT_NO'];?>"/>

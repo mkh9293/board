@@ -6,14 +6,16 @@
             require_once ('config.php');
             require_once ('Log.php');
 
+
+            if(!isset($_GET['url'])){
+                require_once ('./controllers/BoardController.php');
+                $this->class = new BoardController();
+                $this->class->getBoardMain();
+                return;
+            }
+
             $action = $_GET['url'];
             $url = explode("/",$action);
-//            if(empty($url[0]) || empty($url[1])){
-//                require_once ('./controllers/BoardController.php');
-//                $this->class = new BoardController();
-//                $this->class->getBoardList();
-//                return;
-//            }
 
             $class = ucFirst($url[0]).'Controller';
             $fileCheck = './controllers/'.$class.'.php';
@@ -49,35 +51,35 @@
             include $controller = './controllers/'.$class.'.php';
         }
 
-        private function callMethod($action,$type){
-            switch($action){
-                case 'add':
-                    $this->class->{$type.'BoardAdd'}();
-                    break;
-                case 'list':
-                    $this->class->{$type.'BoardList'}();
-                    break;
-                case 'view':
-                    $this->class->{$type.'BoardView'}();
-                    break;
-                case 'delete':
-                    $this->class->{$type.'BoardDelete'}();
-                    break;
-                case 'reply':
-                    $this->class->{$type.'BoardReply'}();
-                    break;
-                case 'update':
-                    $this->class->{$type.'BoardUpdate'}();
-                    break;
-                case 'addComment':
-                    $this->class->{$type.'CommentAdd'}();
-                    break;
-                case 'fileDownload':
-                    $this->class->{$type.'DownloadFile'}();
-                    break;
-                default:
-                    $this->class->{$type.'BoardList'}();
-            }
-        }
+//        private function callMethod($action,$type){
+//            switch($action){
+//                case 'add':
+//                    $this->class->{$type.'BoardAdd'}();
+//                    break;
+//                case 'list':
+//                    $this->class->{$type.'BoardList'}();
+//                    break;
+//                case 'view':
+//                    $this->class->{$type.'BoardView'}();
+//                    break;
+//                case 'delete':
+//                    $this->class->{$type.'BoardDelete'}();
+//                    break;
+//                case 'reply':
+//                    $this->class->{$type.'BoardReply'}();
+//                    break;
+//                case 'update':
+//                    $this->class->{$type.'BoardUpdate'}();
+//                    break;
+//                case 'addComment':
+//                    $this->class->{$type.'CommentAdd'}();
+//                    break;
+//                case 'fileDownload':
+//                    $this->class->{$type.'DownloadFile'}();
+//                    break;
+//                default:
+//                    $this->class->{$type.'BoardList'}();
+//            }
+//        }
     }
 ?>
