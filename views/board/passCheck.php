@@ -1,4 +1,4 @@
-    <div class="input-group col-lg-4 col-lg-offset-4">
+    <div class="input-group col-lg-offset-4">
         <form action="view" method="post" class="form-horizontal">
             <input type="hidden" name="no" value="<?=$this->no?>"/>
             <input type="hidden" name="page" value="<?=$this->page?>"/>
