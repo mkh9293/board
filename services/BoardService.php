@@ -246,7 +246,7 @@
             $pages = array();
             // 이전 페이지
             if($now_block > 1){
-                $pages[] = "<a href=?page=$prev_page&BOARD_TYPE_NO=$type> [이전] </a>";
+                $pages[] = "<li><a aria-label='Previous' href=?page=$prev_page&BOARD_TYPE_NO=$type> &laquo; </a></li>";
             }
 
             // 페이지 리스트
@@ -259,37 +259,17 @@
 
             for($i=$start_page; $i<=$for_end; $i++){
                 if($i==$page){
-                    $pages[] = "<b>$i</b>";
+                    $pages[] = "<li class='active'><span>$i</span></li>";
                 }else{
-                    $pages[] = "<a href=?page=$i&search=$searchText&BOARD_TYPE_NO=$type> $i </a>";
+                    $pages[] = "<li><a href=?page=$i&search=$searchText&BOARD_TYPE_NO=$type> $i </a></li>";
                 }
             }
 
             // 다음 페이지
             if($now_block < $total_block){
-                $pages[] = "<a href=?page=$next_page&BOARD_TYPE_NO=$type> [다음] </a>";
+                $pages[] = "<li><a aria-label='Next' href=?page=$next_page&BOARD_TYPE_NO=$type> &raquo; </a></li>";
             }
 
-
-//            unset($param);
-//            $param[':text'] = "%".$searchText."%";
-//            $param[':start'] = $limit_start;
-//            $param[':end'] = $page_num;
-//            if (isset($type)) {
-//                $where = 'AND BOARD_TYPE_NO = :board_type_no';
-//                $param[':board_type_no'] = $type;
-//            }else{
-//                $where= 'AND BOARD_TYPE_NO is null';
-//            }
-//
-//            $this->boardList = $this->boardModel->getList($param,$where);
-
-//            $this->List = array();
-//            array_push($this->List, $this->boardList);
-//            array_push($this->List, $pages);
-//            array_push($this->List, $page);
-//
-//            return $this->List;
             $data[':text'] = "%".$searchText."%";
             $data[':start'] = $limit_start;
             $data[':end'] = $page_num;
