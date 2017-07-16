@@ -22,7 +22,11 @@
                     </li>
                     <li>
                         <label>작성자</label>
+                        <?php if(!empty($_SESSION['userId'])){ ?>
+                            <input type="text" name="user" value="<?=$_SESSION['userId']?>" readonly/>
+                        <?php }else{?>
                         <input type="text" name="user" value="<?php if(isset($this->board['USER_NM'])){echo $this->board['USER_NM'];}?>"/>
+                        <?php }?>
                     </li>
                     <?php if ($this->type == 'update'){ ?>
                         <li>

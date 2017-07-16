@@ -16,6 +16,11 @@
             $boardTypeList = $this->boardService->getBoardTypeInfo();
             foreach ($boardTypeList as $key => $value) {
                 $list = $this->boardService->boardList($type,$value);
+                if (empty($list)) {
+                    $list[0]['BOARD_SUBJECT'] = $value['BOARD_SUBJECT'];
+                    $list[0]['BOARD_TYPE'] = $value['BOARD_TYPE'];
+                    $list[0]['BOARD_TYPE_NO'] = $value['BOARD_TYPE_NO'];
+                }
                 array_push($boardList,$list);
             }
             require_once ('./views/common/header.php');

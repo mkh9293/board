@@ -27,6 +27,9 @@
                 if ($data['pass']!='') {
                     $data['pass'] = password_hash($data['pass'],PASSWORD_DEFAULT);
                 }
+                if ($data['type_no'] == '') {
+                    $data['type_no'] = null;
+                }
                 $data['no'] = $this->boardModel->add($data);
                 self::fileUpload($data,'add');
                 header('Location:' . ROOT_URL . 'board/list');
@@ -34,7 +37,9 @@
         }
         function boardAddGet(){
             $this->type = "add";
-            $this->typeNo = $_GET['type_no'];
+            if (isset($_GET['type_no'])) {
+                $this->typeNo = $_GET['type_no'];
+            }
 //            require_once ('./views/board/add.php');
             self::requiresFile($this->type);
         }
@@ -48,7 +53,9 @@
                 $this->board['BOARD_CONTENT'] = '';
                 $this->board['USER_NM'] = '';
                 $this->type = 'reply';
-                $this->typeNo = $_GET['type_no'];
+                if (isset($_GET['type_no'])) {
+                    $this->typeNo = $_GET['type_no'];
+                }
                 $this->page = $data['page'];
                 self::requiresFile('add');
             }
@@ -58,6 +65,9 @@
             if(isset($data['submit'])){
                 if($data['pass']!=''){
                     $data['pass'] = password_hash($data['pass'],PASSWORD_DEFAULT);
+                }
+                if ($data['type_no'] == '') {
+                    $data['type_no'] = null;
                 }
                 $no = $this->boardModel->addReply($data);
                 $data['no'] = $no;
@@ -139,6 +149,10 @@
         /* 글 리스트 세팅 */
         function boardList($type,$data)
         {
+            $page = 1;
+            if (isset($data['page'])) {
+                $page = $data['page'];
+            }
             if(!empty($type)){
                 $param[':text'] = '%%';
                 $param[':start'] = 0;
@@ -178,7 +192,7 @@
                         $this->boardList[$j]['BOARD_NM'] = '삭제된 게시글 입니다';
                         $this->boardList[$j]['href'] = "location.href='#'";
                     } else {
-                        $this->boardList[$j]['href'] = "location.href='" . ROOT_URL . "board/view?no=" . $board['BOARD_NO'];/* . "&page=" . $list[2] . "'";*/
+                        $this->boardList[$j]['href'] = "location.href='" . ROOT_URL . "board/view?no=" . $board['BOARD_NO'] . "&page=" . $page . "'";
                     }
                     $this->boardList[$j++]['space'] = $blank;
                 }
@@ -214,7 +228,7 @@
             $page_num = 10;
             $block_num = 5;
             $page = 1;
-            if(isset($data['page']) && !is_null($data['page'])){
+            if(isset($data['page']) && !empty($data['page'])){
                 $page = $data['page'];
             }
 

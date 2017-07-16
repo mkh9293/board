@@ -24,7 +24,7 @@
             <a href="reply?no=<?=$this->board['BOARD_NO']?>&page=<?=$this->page?>&type_no=<?=$this->board['BOARD_TYPE_NO'];?>">답글쓰기</a>
             <a href="update?no=<?=$this->board['BOARD_NO']?>&page=<?=$this->page?>">수정하기</a>
             <a href="delete?no=<?=$this->board['BOARD_NO']?>">삭제하기</a>
-            <a href="list?page=<?=$this->page?>">목록으로</a>
+            <a href="list?page=<?=$this->page?>&BOARD_TYPE_NO=<?=$this->board['BOARD_TYPE_NO'];?>">목록으로</a>
         </div>
 
         <div style="margin-top:10px;">

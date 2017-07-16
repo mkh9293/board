@@ -56,6 +56,7 @@
         }
 
         function getUserMypage(){
+            require_once ('./views/common/header.php');
             require_once ('./views/user/mypage.php');
         }
     }
